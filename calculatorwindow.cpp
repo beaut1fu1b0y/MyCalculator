@@ -122,7 +122,6 @@ void CalculatorWindow::on_eqlButton_clicked()
             result = this->number_1 / this->number_2;
         } else {
             ui->displayEdit->setText("Error");
-            this->clearEdit();  // 清除错误信息后的数据
             return;  // 直接返回，避免继续执行后续代码
         }
     }
