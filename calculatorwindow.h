@@ -1,7 +1,7 @@
 #ifndef CALCULATORWINDOW_H
 #define CALCULATORWINDOW_H
 
-#include <QWidget>
+#include <QWidget>//lcycoding
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

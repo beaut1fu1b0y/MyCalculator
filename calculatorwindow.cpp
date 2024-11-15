@@ -1,5 +1,5 @@
 #include "calculatorwindow.h"
-#include "./ui_calculatorwindow.h"
+#include "./ui_calculatorwindow.h"//lcycoding
 
 CalculatorWindow::CalculatorWindow(QWidget *parent)
     : QWidget(parent)
@@ -60,7 +60,7 @@ void CalculatorWindow::displayNumber(int number) {
 }
 
 // Slot functions for digit buttons //lcycoding
-void CalculatorWindow::on_numButton_0_clicked() { this->displayadd('0'); }  //这段代码看似很烂但其实易读性拉满了
+void CalculatorWindow::on_numButton_0_clicked() { this->displayadd('0'); }  //这段代码看似很烂但实际上拥有无与伦比的可读性
 void CalculatorWindow::on_numButton_1_clicked() { this->displayadd('1'); }
 void CalculatorWindow::on_numButton_2_clicked() { this->displayadd('2'); }
 void CalculatorWindow::on_numButton_3_clicked() { this->displayadd('3'); }
@@ -109,7 +109,7 @@ void CalculatorWindow::on_eqlButton_clicked()
 }
 
 
-void CalculatorWindow::strRec(QString str) {    //这段代码看似很烂但其实易读性拉满了
+void CalculatorWindow::strRec(QString str) {    //这段代码看似很烂但其实可读性拉满了
     for (int i = 0; i < str.size(); i++) {
         if (str.at(i) == '0') { this->inputNumber(0); }
         else if (str.at(i) == '1') { this->inputNumber(1); }

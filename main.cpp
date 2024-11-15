@@ -1,4 +1,4 @@
-#include "calculatorwindow.h"
+#include "calculatorwindow.h"//lcycoding
 
 #include <QApplication>
 
