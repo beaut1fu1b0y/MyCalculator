@@ -36,7 +36,6 @@ private slots:
 
     void on_acButton_clicked();
     void on_eqlButton_clicked();
-
 private:
     Ui::CalculatorWindow *ui;
 
@@ -50,8 +49,8 @@ private:
     void displayNumber(int number);
     void inputOperator(char op);
     void clearEdit();
-    void calculate();
     void displayadd(char c);
+    void strRec(QString str);
 };
 
 #endif // CALCULATORWINDOW_H
