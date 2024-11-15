@@ -1,15 +1,6 @@
 #include "calculatorwindow.h"
 #include "./ui_calculatorwindow.h"
 
-/*
- *
- * private:
- *  int number_1, number_2;
- *  char op;
- *  int status; // status = 0, input the first number, otherwise input the second number
- *
-*/
-
 CalculatorWindow::CalculatorWindow(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::CalculatorWindow)
@@ -24,21 +15,21 @@ CalculatorWindow::~CalculatorWindow()
 }
 
 void CalculatorWindow::clearEdit() {
-    this->number_1 = 0;
-    this->number_2 = 0;
-    this->status = 0;
     ui->displayEdit->setText("0");
+    this->current_ans = 0;
+    this->current_num = 0;
+    this->calStr = "";
+    this->lastop = '+';
 }
 
 void CalculatorWindow::inputNumber(int c) {
-    if(this->status == 0) {
-        this->number_1 = this->number_1 * 10 + c;
-        this->displayNumber(this->number_1);
-    }
-    else {
-        this->number_2 = this->number_2 * 10 + c;
-        this->displayNumber(this->number_2);
-    }
+    this->current_num = this->current_num * 10 + c;
+    displayadd(char(c + '0'));  // 将数字转换为字符并显示
+}
+
+void CalculatorWindow::displayadd(char c){
+    this->calStr += c;
+    ui->displayEdit->setText(calStr);
 }
 
 void CalculatorWindow::displayNumber(int number) {
@@ -46,42 +37,29 @@ void CalculatorWindow::displayNumber(int number) {
 }
 
 void CalculatorWindow::inputOperator(char op) {
-    if (this->status == 0) {
-        this->status = 1;
-        this->op = op;
-    } else {
-        this->calculate();
-        this->op = op;
-    }
-}
+    this->displayadd(op);
 
-void CalculatorWindow::calculate() {
-    int result = 0;
-    if(this->op == '+') {
-        result = this->number_1 + this->number_2;
-    }
-    else if(this->op == '-') {
-        result = this->number_1 - this->number_2;
-    }
-    else if(this->op == '*') {
-        result = this->number_1 * this->number_2;
-    }
-    else if(this->op == '/') {
-        if (this->number_2 != 0) {
-            result = this->number_1 / this->number_2;
+    if (this->lastop == '+') {
+        this->current_ans += this->current_num;
+    } else if (this->lastop == '-') {
+        this->current_ans -= this->current_num;
+    } else if (this->lastop == '*') {
+        this->current_ans *= this->current_num;
+    } else if (this->lastop == '/') {
+        if (this->current_num != 0) {
+            this->current_ans /= this->current_num;
         } else {
-            ui->displayEdit->setText("Error");
+            ui->displayEdit->setText("Error");  // 显示错误信息
             this->clearEdit();
             return;
         }
     }
-    this->displayNumber(result);
-    this->number_1 = result;
-    this->number_2 = 0;
-    this->status = 1;
+
+    this->lastop = op;
+    this->current_num = 0;
 }
 
-// Slot functions for digit buttons
+// Slot functions for digit buttons //lcycoding
 void CalculatorWindow::on_numButton_0_clicked() { this->inputNumber(0); }
 void CalculatorWindow::on_numButton_1_clicked() { this->inputNumber(1); }
 void CalculatorWindow::on_numButton_2_clicked() { this->inputNumber(2); }
@@ -105,30 +83,25 @@ void CalculatorWindow::on_acButton_clicked() {
 
 void CalculatorWindow::on_eqlButton_clicked()
 {
-    int result = 0;
-
-    // 根据当前操作符执行相应的计算
-    if(this->op == '+') {
-        result = this->number_1 + this->number_2;
-    }
-    else if(this->op == '-') {
-        result = this->number_1 - this->number_2;
-    }
-    else if(this->op == '*') {
-        result = this->number_1 * this->number_2;
-    }
-    else if(this->op == '/') {
-        if (this->number_2 != 0) {
-            result = this->number_1 / this->number_2;
+    if (this->lastop == '+') {
+        this->current_ans += this->current_num;
+    } else if (this->lastop == '-') {
+        this->current_ans -= this->current_num;
+    } else if (this->lastop == '*') {
+        this->current_ans *= this->current_num;
+    } else if (this->lastop == '/') {
+        if (this->current_num != 0) {
+            this->current_ans /= this->current_num;
         } else {
-            ui->displayEdit->setText("Error");
-            return;  // 直接返回，避免继续执行后续代码
+            ui->displayEdit->setText("Error");  // 显示错误信息
+            this->clearEdit();
+            return;
         }
     }
 
-    // 显示计算结果
-    this->displayNumber(result);
-
+    this->displayNumber(current_ans);
+    this->calStr = QString::number(current_ans);
+    this->current_num = current_ans;
+    this->current_ans = 1;
+    this->lastop = '*';
 }
-
-

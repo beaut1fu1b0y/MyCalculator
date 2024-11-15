@@ -41,9 +41,9 @@ private:
     Ui::CalculatorWindow *ui;
 
 private:
-    int number_1, number_2;
-    char op;
-    int status; // 0: input first number, 1: input second number
+    char op,lastop = '*';
+    QString calStr = "";
+    int current_num = 0,current_ans = 1;
 
 private:
     void inputNumber(int c);
@@ -51,6 +51,7 @@ private:
     void inputOperator(char op);
     void clearEdit();
     void calculate();
+    void displayadd(char c);
 };
 
 #endif // CALCULATORWINDOW_H
